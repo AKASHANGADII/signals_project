@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
               Navigator.of(context).pushNamed(TextToSpech.routeName);
             }),
             OptionButton(name: "Speech to text", onPressed: (){
-              Navigator.of(context).pushNamed(SpeechSampleApp.routeName);
+              Navigator.of(context).pushNamed(SpeechToTextScreen.routeName);
             })
           ],
         ),
