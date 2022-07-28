@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/':(ctx)=>HomeScreen(),
         TextToSpech.routeName:(ctx)=>TextToSpech(),
-        SpeechSampleApp.routeName:(ctx)=>SpeechSampleApp(),
+        SpeechToTextScreen.routeName:(ctx)=>SpeechToTextScreen()
       },
       initialRoute: '/',
     );
