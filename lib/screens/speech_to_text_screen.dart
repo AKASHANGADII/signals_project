@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:speech_to_text/speech_to_text.dart';
 
 class SpeechToTextScreen extends StatefulWidget {
@@ -16,6 +15,7 @@ class _SpeechToTextScreenState extends State<SpeechToTextScreen> {
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
+  TextEditingController _text = TextEditingController();
 
   @override
   void initState() {
@@ -30,8 +30,8 @@ class _SpeechToTextScreenState extends State<SpeechToTextScreen> {
   }
 
   void _startListening() async {
+    setState((){});
     await _speechToText.listen(onResult: _onSpeechResult);
-    setState(() {});
   }
 
   void _stopListening() async {
@@ -42,7 +42,11 @@ class _SpeechToTextScreenState extends State<SpeechToTextScreen> {
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
       _lastWords = result.recognizedWords;
+      if (result.finalResult) {
+        _text.text = _text.text + _lastWords;
+      }
     });
+
   }
 
 
@@ -75,11 +79,18 @@ class _SpeechToTextScreenState extends State<SpeechToTextScreen> {
                 ),
               ),
             ),
+            Expanded(child: TextField(
+              controller: _text,
+              decoration: InputDecoration(
+
+              ),
+            ))
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _speechToText.isNotListening ? _startListening : _stopListening,
+        onPressed:
+          _speechToText.isNotListening ? _startListening : _stopListening,
         tooltip: 'Listen',
         child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
       ),
