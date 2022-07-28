@@ -15,7 +15,7 @@ class _SpeechToTextScreenState extends State<SpeechToTextScreen> {
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
   String _lastWords = '';
-  TextEditingController _text = TextEditingController();
+  TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _SpeechToTextScreenState extends State<SpeechToTextScreen> {
     setState(() {
       _lastWords = result.recognizedWords;
       if (result.finalResult) {
-        _text.text = _text.text + _lastWords;
+        _textController.text = _textController.text + " " + _lastWords;
       }
     });
 
@@ -57,18 +57,18 @@ class _SpeechToTextScreenState extends State<SpeechToTextScreen> {
         title: const Text('Speech To Text'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(16),
-              child: const Text(
-                'Recognized words',
-                style: TextStyle(fontSize: 20.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(right: 16,left: 16,bottom: 16),
+                child: const Text(
+                  'Recognized words',
+                  style: TextStyle(fontSize: 20.0),
+                ),
               ),
-            ),
-            Expanded(
-              child: Container(
+              Container(
                 padding: EdgeInsets.all(16),
                 child: Text(
                   _speechToText.isListening
@@ -78,14 +78,30 @@ class _SpeechToTextScreenState extends State<SpeechToTextScreen> {
                       : 'Speech not available',
                 ),
               ),
-            ),
-            Expanded(child: TextField(
-              controller: _text,
-              decoration: InputDecoration(
-
+              SizedBox(height: 25,),
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: const Text(
+                  'Final Result',
+                  style: TextStyle(fontSize: 20.0),
+                ),
               ),
-            ))
-          ],
+              Container(
+                height: MediaQuery.of(context).size.height/2,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: TextField(
+                    controller: _textController,
+                    maxLines: 100,
+                    decoration: InputDecoration(
+                      hintText: "Result will come here...",
+                      border: OutlineInputBorder()
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
