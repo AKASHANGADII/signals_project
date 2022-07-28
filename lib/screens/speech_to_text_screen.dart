@@ -99,7 +99,7 @@ class _SpeechToTextScreenState extends State<SpeechToTextScreen> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
